@@ -22,7 +22,7 @@ public class SimulationApp {
         List<List<List<Cell>>> matrixes = new ArrayList<>();
         matrixes.add(WildfireSimulation.initializeMatrix(TREE_RATIO));
 
-        for (int round = 0; !WildfireSimulation.burntOut(matrixes.get(matrixes.size() - 1)) && round < 900; round++) {
+        for (int round = 0; !WildfireSimulation.burntOut(matrixes.get(matrixes.size() - 1)); round++) {
             if(round % 10 == 0)
                 System.out.println("Round " + round);
             matrixes.add(WildfireSimulation.nextRound(matrixes.get(matrixes.size() - 1), ALPHA_MAX, ALPHA_MIN, DT));
@@ -35,7 +35,7 @@ public class SimulationApp {
             writer.write("" + DT + " - " + ALPHA_MIN + " - " + ALPHA_MAX + "\n");
             int t=0;
             for (List<List<Cell>> matrix : matrixes){
-                if(t % 3*DT == 0){
+                if(t % 10*DT == 0){
                     writer.write("" + t + "\n");
                     for(List<Cell> row : matrix){
                         for (Cell cell : row){

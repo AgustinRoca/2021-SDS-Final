@@ -49,7 +49,7 @@ mat = plt.matshow(matrixes[0], cmap=cm.turbo, interpolation='none', vmin=0, vmax
 def update_func2d(zip, *fargs):
     global mat
     global ax
-    ax.set_title("Time:{}".format(zip[1]), fontdict={'fontsize': 20})
+    ax.set_title("Time:{}".format(zip[1]/60), fontdict={'fontsize': 20})
     mat.set_data(zip[0])
     return mat
 

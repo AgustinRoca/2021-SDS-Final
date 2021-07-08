@@ -10,9 +10,9 @@ import java.util.List;
 
 public class WildfireSimulation {
     private static final int MATRIX_SIDE_LENGTH = 100;
-    private static final double CELL_SIZE = 10; // m
+    private static final double CELL_SIZE = 5; // m
     private static final double ROOM_TEMPERATURE = 298; // Kelvin
-    private static final double INTERACTION_DISTANCE = 3;
+    private static final double INTERACTION_DISTANCE = 4;
     private static final double STEFAN_BOLTZMANN_CONSTANT = 5.67 * Math.pow(10, -8); // W / (m^2 * K^4)
 
     public static List<List<Cell>> initializeMatrix(double treeRatio){
@@ -42,8 +42,8 @@ public class WildfireSimulation {
 
     private static void transmitHeat(Tree treeOnFire, List<Tree> affectingHealthyTrees, double alphaMax, double alphaMin, double timeStep) {
         double maxEnergy = STEFAN_BOLTZMANN_CONSTANT * Math.pow(treeOnFire.getTemperature(), 4); // W/m^2 = J/(m^2 * s)
-        maxEnergy *= 4 * Math.PI * treeOnFire.getRadius() * treeOnFire.getRadius(); // J / s
-        maxEnergy *= timeStep * 60 * 1000000; // J TODO: CHECK THIS
+        maxEnergy *= Math.PI * treeOnFire.getRadius() * treeOnFire.getRadius(); // J / s
+        maxEnergy *= timeStep; // J
         for (Tree tree : affectingHealthyTrees) {
             double alpha = alphaMin + (alphaMax - alphaMin) * (Math.cos(treeOnFire.getPosition().angleBetween(tree.getPosition())) + 1) / 2;
             double distance = treeOnFire.getPosition().distanceTo(tree.getPosition());

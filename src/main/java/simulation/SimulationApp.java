@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationApp {
-    private static final double DT = 1; // min
-    private static final double TREE_RATIO = 0.6;
-    private static final double ALPHA_MAX = 1.1;
-    private static final double ALPHA_MIN = 0.9;
+    private static final double DT = 60; // s
+    private static final double TREE_RATIO = 0.3;
+    private static final double ALPHA_MAX = 0.5;
+    private static final double ALPHA_MIN = 0.15;
     private static final String OUTPUT_PATH = "./data/output.txt";
 
 
@@ -22,7 +22,7 @@ public class SimulationApp {
         List<List<List<Cell>>> matrixes = new ArrayList<>();
         matrixes.add(WildfireSimulation.initializeMatrix(TREE_RATIO));
 
-        for (int round = 0; !WildfireSimulation.burntOut(matrixes.get(matrixes.size() - 1)); round++) {
+        for (int round = 0; !WildfireSimulation.burntOut(matrixes.get(matrixes.size() - 1) )&& round < 3000; round++) {
             if(round % 10 == 0)
                 System.out.println("Round " + round);
             matrixes.add(WildfireSimulation.nextRound(matrixes.get(matrixes.size() - 1), ALPHA_MAX, ALPHA_MIN, DT));
@@ -35,7 +35,7 @@ public class SimulationApp {
             writer.write("" + DT + " - " + ALPHA_MIN + " - " + ALPHA_MAX + "\n");
             int t=0;
             for (List<List<Cell>> matrix : matrixes){
-                if(t % 10*DT == 0){
+                if(t % 600*DT == 0){
                     writer.write("" + t + "\n");
                     for(List<Cell> row : matrix){
                         for (Cell cell : row){

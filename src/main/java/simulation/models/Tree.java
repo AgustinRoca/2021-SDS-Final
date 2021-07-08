@@ -1,14 +1,14 @@
 package simulation.models;
 
-import java.util.List;
-
 public class Tree {
     private static final double IGNITION_TEMPERATURE = 561; // Kelvin
-    private static final double MAX_TEMPERATURE = 873; // Kelvin
-    private static final double HEAT_CAPACITY = 2386; // J/(kg * K) source:http://leias.fa.unam.mx/wp-content/uploads/2018/07/180515_Practica12_LES.pdf
-    private static final double MASS = 7500; // kg
+    private static final double MAX_TEMPERATURE = 1073; // Kelvin
+    private static final double HEAT_CAPACITY = 2000; // J/(kg * K)
+    private static final double MASS = 200; // kg (solo la madera de la copa)
     private static final double RADIUS = 2; // m
-    private static final double BURN_TIME = 500; // s
+    private static final double BURN_TIME = 500*60; // s
+    private static final double AMB_DIFF = 115; // K. Basicamente AMB_DIFF = T_fuego(BURN_TIME)-T_amb
+    private final double roomTemperature;
     private final Position position;
     private double temperature;
     private TreeState state;
@@ -19,12 +19,14 @@ public class Tree {
         this.temperature = tree.temperature;
         this.state = tree.state;
         this.timeOnFire = tree.timeOnFire;
+        this.roomTemperature = tree.roomTemperature;
     }
-    public Tree(Position position, double temperature) {
+    public Tree(Position position, double temperature, double roomTemperature) {
         this.position = position;
         this.temperature = temperature;
         this.state = TreeState.HEALTHY;
         this.timeOnFire = 0;
+        this.roomTemperature = roomTemperature;
     }
 
     public double getTemperature() {
@@ -89,10 +91,12 @@ public class Tree {
 
         timeOnFire += timeStep;
         if(timeOnFire < BURN_TIME / 2){ // primera mitad de la curva
-            double asin = Math.asin(561.0/873);
+            double asin = Math.asin(IGNITION_TEMPERATURE/MAX_TEMPERATURE);
             temperature = MAX_TEMPERATURE * Math.sin(((Math.PI/2 - asin)/(BURN_TIME/2)) * (timeOnFire) + asin);
         } else if (timeOnFire < BURN_TIME){ // segunda mitad de la curva
-            temperature = 2875 * Math.exp((-Math.log(5)/250) * timeOnFire) + 298;
+            double b = 2/BURN_TIME * Math.log((MAX_TEMPERATURE - roomTemperature)/AMB_DIFF);
+            double a = AMB_DIFF * Math.exp(BURN_TIME*b);
+            temperature = a * Math.exp(-b * timeOnFire) + roomTemperature;
         } else {
             state = TreeState.DEAD;
         }

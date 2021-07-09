@@ -64,8 +64,8 @@ public class EllipseSizeAfterTime {
                         maxCol = col;
                     }
                 }
-                double length = maxCol - minCol;
-                double width = maxRow - minRow;
+                double length = (maxCol - minCol) * WildfireSimulation.getCellSize();
+                double width = (maxRow - minRow) * WildfireSimulation.getCellSize();
                 writer.write("" + length + "-" + width + "\n");
             }
 

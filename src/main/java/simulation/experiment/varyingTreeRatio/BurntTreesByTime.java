@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BurntTreesByTime {
     private static final double DT = 60; // s
@@ -30,9 +31,11 @@ public class BurntTreesByTime {
             for (double treeRatio = TREE_RATIO_MIN; Double.compare(treeRatio, TREE_RATIO_MAX) <= 0; treeRatio += (TREE_RATIO_MAX - TREE_RATIO_MIN) / (STEPS - 1)) {
                 writer.write("" + DT + " - " + treeRatio + "\n");
                 Map<Double, Long> timeToBurnTreesMap = new HashMap<>();
+                double minTime = -1;
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(treeRatio);
-                    for (int round = 0; !WildfireSimulation.burntOut(lastMatrix); round++) {
+                    int round = 0;
+                    for (; !WildfireSimulation.burntOut(lastMatrix); round++) {
                         if (round % 10 == 0)
                             System.out.println("Round " + round);
                         lastMatrix = WildfireSimulation.nextRound(lastMatrix, ALPHA_MAX, ALPHA_MIN, DT);
@@ -49,9 +52,14 @@ public class BurntTreesByTime {
                             timeToBurnTreesMap.put(t/60, timeToBurnTreesMap.getOrDefault(t/60, 0L) + burntTrees);
                         }
                     }
+                    if(minTime == -1 || (round * DT/60) < minTime){
+                        minTime = round * DT / 60;
+                    }
                 }
-                for (Double time : timeToBurnTreesMap.keySet()){
-                    writer.write("" + time + ":" + (timeToBurnTreesMap.get(time)/(double)MAX_ITERATIONS) + "\n");
+                for (Double time : timeToBurnTreesMap.keySet().stream().sorted().collect(Collectors.toList())){
+                    if(time < minTime) { // El ultimo no cuenta
+                        writer.write("" + time + ":" + (timeToBurnTreesMap.get(time) / (double) MAX_ITERATIONS) + "\n");
+                    }
                 }
                 writer.write('\n');
             }

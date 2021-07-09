@@ -17,7 +17,7 @@ public class TimeToExtinguish {
     private static final double ALPHA_MAX_MIN = 0.3;
     private static final double ALPHA_MAX_MAX = 1.3;
     private static final String OUTPUT_PATH = "./data/experiment/alphaTimeToExtinguish.txt";
-
+    private static final int MAX_ITERATIONS = 20;
 
     public static void main(String[] args) {
         try {
@@ -27,14 +27,18 @@ public class TimeToExtinguish {
             for (double alphaMax = ALPHA_MAX_MIN; alphaMax <= ALPHA_MAX_MAX; alphaMax += (ALPHA_MAX_MAX - ALPHA_MAX_MIN) / (STEPS - 1)) {
                 double alphaMin = alphaMax / ALPHA_RATIO;
                 writer.write("" + DT + " - " + alphaMax + " - " + alphaMin + "\n");
-                List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(TREE_RATIO);
-                int round = 0;
-                for (; !WildfireSimulation.burntOut(lastMatrix); round++) {
-                    if (round % 10 == 0)
-                        System.out.println("Round " + round);
-                    lastMatrix = WildfireSimulation.nextRound(lastMatrix, alphaMax, alphaMin, DT);
+                double timeAccum = 0;
+                for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+                    List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(TREE_RATIO);
+                    int round = 0;
+                    for (; !WildfireSimulation.burntOut(lastMatrix); round++) {
+                        if (round % 10 == 0)
+                            System.out.println("Round " + round);
+                        lastMatrix = WildfireSimulation.nextRound(lastMatrix, alphaMax, alphaMin, DT);
+                    }
+                    timeAccum += (round * DT / 60);
                 }
-                writer.write("" + (round * DT / 60) + "\n");
+                writer.write("" + (timeAccum/MAX_ITERATIONS) + "\n");
             }
 
             System.out.println("Termine");

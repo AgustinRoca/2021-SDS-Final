@@ -90,4 +90,12 @@ public class WildfireSimulation {
         }
         return true;
     }
+
+    public static int getMatrixSideLength() {
+        return MATRIX_SIDE_LENGTH;
+    }
+
+    public static double getCellSize() {
+        return CELL_SIZE;
+    }
 }

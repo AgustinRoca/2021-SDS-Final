@@ -55,6 +55,7 @@ public class AverageTemperatureByTime {
                 for (Double time : timeToTempMap.keySet()){
                     writer.write("" + time + ":" + (timeToTempMap.get(time)/MAX_ITERATIONS) + "\n");
                 }
+                writer.write('\n');
             }
 
             System.out.println("Termine");

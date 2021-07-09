@@ -73,7 +73,7 @@ public class EllipseSizeAfterTime {
                     lengthAccum += length;
                     widthAccum += width;
                 }
-                writer.write("" + lengthAccum/MAX_ITERATIONS + "-" + widthAccum/MAX_ITERATIONS + "\n");
+                writer.write("" + lengthAccum/MAX_ITERATIONS + "-" + widthAccum/MAX_ITERATIONS + "\n\n");
             }
 
             System.out.println("Termine");

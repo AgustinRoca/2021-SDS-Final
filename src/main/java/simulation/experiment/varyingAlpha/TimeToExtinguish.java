@@ -38,7 +38,7 @@ public class TimeToExtinguish {
                     }
                     timeAccum += (round * DT / 60);
                 }
-                writer.write("" + (timeAccum/MAX_ITERATIONS) + "\n");
+                writer.write("" + (timeAccum/MAX_ITERATIONS) + "\n\n");
             }
 
             System.out.println("Termine");

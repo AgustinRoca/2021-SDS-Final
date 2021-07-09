@@ -45,7 +45,7 @@ public class AliveTreesAfterFire {
                     }
                 }
                 double aliveAvg = (double) alive / MAX_ITERATIONS;
-                writer.write("" + aliveAvg + "\n");
+                writer.write("" + aliveAvg + "\n\n");
             }
 
             System.out.println("Termine");

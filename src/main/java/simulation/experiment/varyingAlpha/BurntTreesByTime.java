@@ -54,6 +54,7 @@ public class BurntTreesByTime {
                 for (Double time : timeToBurnTreesMap.keySet()){
                     writer.write("" + time + ":" + (timeToBurnTreesMap.get(time)/(double)MAX_ITERATIONS) + "\n");
                 }
+                writer.write('\n');
             }
 
 

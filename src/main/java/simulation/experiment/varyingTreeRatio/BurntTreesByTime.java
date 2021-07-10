@@ -34,10 +34,11 @@ public class BurntTreesByTime {
                 Map<Double, List<Double>> timeToBurnTreesMap = new HashMap<>();
                 double minTime = -1;
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+                    System.out.println("Iteration: " + iteration);
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(treeRatio);
                     int round = 0;
                     for (; !WildfireSimulation.burntOut(lastMatrix); round++) {
-                        if (round % 10 == 0)
+                        if (round % 1000 == 0)
                             System.out.println("Round " + round);
                         lastMatrix = WildfireSimulation.nextRound(lastMatrix, ALPHA_MAX, ALPHA_MIN, DT);
                         double t = DT * round;

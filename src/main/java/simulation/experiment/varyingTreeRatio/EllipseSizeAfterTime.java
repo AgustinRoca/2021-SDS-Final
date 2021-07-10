@@ -32,10 +32,10 @@ public class EllipseSizeAfterTime {
                 List<Double> lengthList = new ArrayList<>();
                 List<Double> widthList = new ArrayList<>();
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-
+                    System.out.println("Iteration: " + iteration);
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(treeRatio);
                     for (int round = 0; !WildfireSimulation.burntOut(lastMatrix) && round * DT < TIME_TO_MEASURE; round++) {
-                        if (round % 10 == 0)
+                        if (round % 1000 == 0)
                             System.out.println("Round " + round);
                         lastMatrix = WildfireSimulation.nextRound(lastMatrix, ALPHA_MAX, ALPHA_MIN, DT);
                     }

@@ -66,3 +66,7 @@ graph_ratio_ellipse_size:
 	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_ellipse_size.py"
 graph_ratio_time_to_extinguish:
 	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_time_to_extinguish.py"
+
+graph_all_alpha:graph_alpha_alive_trees graph_alpha_avg_temp graph_alpha_burnt_trees graph_alpha_ellipse_size graph_alpha_time_to_extinguish
+graph_all_ratio:graph_ratio_alive_trees graph_ratio_avg_temp graph_ratio_burnt_trees graph_ratio_ellipse_size graph_ratio_time_to_extinguish
+graph_all:graph_all_alpha graph_all_ratio

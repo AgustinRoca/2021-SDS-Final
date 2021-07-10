@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 public class AverageTemperatureByTime {
     private static final double DT = 60; // s
     private static final double TREE_RATIO = 0.3;
-    private static final double STEPS = 5;
-    private static final double ALPHA_RATIO = 3;
+    private static final double STEPS = 4;
     private static final double ALPHA_MAX_MIN = 0.3;
     private static final double ALPHA_MAX_MAX = 1.3;
     private static final String OUTPUT_PATH = "./data/experiment/alphaAvgTemp.txt";
@@ -29,9 +28,9 @@ public class AverageTemperatureByTime {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(OUTPUT_PATH).toAbsolutePath().toString(), false));
 
-            double alphaMin = 0.5;
+            double alphaMin = 0.3;
             for (double alphaMax = ALPHA_MAX_MIN; alphaMax <= ALPHA_MAX_MAX; alphaMax += (ALPHA_MAX_MAX - ALPHA_MAX_MIN) / (STEPS - 1)) {
-                alphaMin -= 0.1;
+                alphaMin -= 0.05;
                 writer.write("" + DT + " ; " + alphaMax + " ; " + alphaMin + "\n");
                 Map<Double, List<Double>> timeToTempMap = new HashMap<>();
                 double minTime = -1;

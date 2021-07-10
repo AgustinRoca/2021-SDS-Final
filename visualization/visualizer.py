@@ -64,6 +64,8 @@ ax.figure.set_size_inches((12, 12))
 # ax.set_yticks(minor_ticks_y, minor=True)
 ax.grid(b=True, which='minor', color='gray', linestyle='-', linewidth=0.5)
 
+ani.save("animation/animation.avi")
+
 for tic in ax.xaxis.get_major_ticks():
     tic.tick1On = tic.tick2On = False
 for tic in ax.yaxis.get_major_ticks():

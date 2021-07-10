@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EllipseSizeAfterTime {
@@ -28,8 +29,8 @@ public class EllipseSizeAfterTime {
 
             for (double treeRatio = TREE_RATIO_MIN; Double.compare(treeRatio, TREE_RATIO_MAX) <= 0; treeRatio += (TREE_RATIO_MAX - TREE_RATIO_MIN) / (STEPS - 1)) {
                 writer.write("" + DT + " - " + treeRatio + "\n");
-                double lengthAccum = 0;
-                double widthAccum = 0;
+                List<Double> lengthList = new ArrayList<>();
+                List<Double> widthList = new ArrayList<>();
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
 
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(treeRatio);
@@ -70,10 +71,11 @@ public class EllipseSizeAfterTime {
                     }
                     double length = (maxCol - minCol) * WildfireSimulation.getCellSize();
                     double width = (maxRow - minRow) * WildfireSimulation.getCellSize();
-                    lengthAccum += length;
-                    widthAccum += width;
+                    lengthList.add(length);
+                    widthList.add(width);
                 }
-                writer.write("" + lengthAccum/MAX_ITERATIONS + "-" + widthAccum/MAX_ITERATIONS + "\n\n");
+                writer.write("" + calculateMean(lengthList) + "-" + calculateSD(lengthList) +
+                        "-" + calculateMean(widthList) + "-" + calculateSD(widthList) + "\n\n");
             }
 
             System.out.println("Termine");
@@ -81,5 +83,29 @@ public class EllipseSizeAfterTime {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static double calculateSD(List<Double> numbers)
+    {
+        double standardDeviation = 0.0;
+
+        double mean = calculateMean(numbers);
+
+        for(double num: numbers) {
+            standardDeviation += Math.pow(num - mean, 2);
+        }
+
+        return Math.sqrt(standardDeviation/numbers.size());
+    }
+
+    public static double calculateMean(List<Double> numbers) {
+        double sum = 0.0;
+        int length = numbers.size();
+
+        for (double num : numbers) {
+            sum += num;
+        }
+
+        return sum / length;
     }
 }

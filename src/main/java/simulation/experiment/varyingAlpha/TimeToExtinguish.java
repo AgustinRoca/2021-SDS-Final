@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TimeToExtinguish {
@@ -27,7 +28,7 @@ public class TimeToExtinguish {
             for (double alphaMax = ALPHA_MAX_MIN; alphaMax <= ALPHA_MAX_MAX; alphaMax += (ALPHA_MAX_MAX - ALPHA_MAX_MIN) / (STEPS - 1)) {
                 double alphaMin = alphaMax / ALPHA_RATIO;
                 writer.write("" + DT + " - " + alphaMax + " - " + alphaMin + "\n");
-                double timeAccum = 0;
+                List<Double> times = new ArrayList<>();
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(TREE_RATIO);
                     int round = 0;
@@ -36,9 +37,9 @@ public class TimeToExtinguish {
                             System.out.println("Round " + round);
                         lastMatrix = WildfireSimulation.nextRound(lastMatrix, alphaMax, alphaMin, DT);
                     }
-                    timeAccum += (round * DT / 60);
+                    times.add(round * DT / 60);
                 }
-                writer.write("" + (timeAccum/MAX_ITERATIONS) + "\n\n");
+                writer.write("" + calculateMean(times) + "-" + calculateSD(times) + "\n\n");
             }
 
             System.out.println("Termine");
@@ -46,5 +47,29 @@ public class TimeToExtinguish {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static double calculateSD(List<Double> numbers)
+    {
+        double standardDeviation = 0.0;
+
+        double mean = calculateMean(numbers);
+
+        for(double num: numbers) {
+            standardDeviation += Math.pow(num - mean, 2);
+        }
+
+        return Math.sqrt(standardDeviation/numbers.size());
+    }
+
+    public static double calculateMean(List<Double> numbers) {
+        double sum = 0.0;
+        int length = numbers.size();
+
+        for (double num : numbers) {
+            sum += num;
+        }
+
+        return sum / length;
     }
 }

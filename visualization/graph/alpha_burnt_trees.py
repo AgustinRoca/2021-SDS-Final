@@ -11,8 +11,8 @@ burnt_trees = []
 while line != "":
     params = line.split('-')
     print(params)
-    alpha_mins.append(float(params[1]))
-    alpha_maxs.append(float(params[2]))
+    alpha_mins.append(float(params[2]))
+    alpha_maxs.append(float(params[1]))
     line = f.readline().strip()
     times.append([])
     burnt_trees.append([])

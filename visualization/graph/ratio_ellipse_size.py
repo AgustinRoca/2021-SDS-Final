@@ -7,6 +7,8 @@ line = f.readline().strip()
 ratio = []
 ellipse_lengths = []
 ellipse_widths = []
+length_errors = []
+width_errors = []
 dt_sys = []
 while line != "":
     params = line.split('-')
@@ -17,7 +19,9 @@ while line != "":
     params = line.split('-')
     print(params)
     ellipse_lengths.append(float(params[0]))
-    ellipse_widths.append(float(params[1]))
+    length_errors.append(float(params[1]))
+    ellipse_widths.append(float(params[2]))
+    width_errors.append(float(params[3]))
     line = f.readline()
     line = f.readline()
 
@@ -31,7 +35,7 @@ plt.ylabel("Longitud (m)")
 labels = []
 for i in range(0, len(ellipse_lengths)):
     labels.append("{:.0%}".format(ratio[i]))
-plt.bar(labels, ellipse_lengths)
+plt.bar(labels, ellipse_lengths,yerr=length_errors,ecolor='red',capsize=12)
 
 # widths
 plt.figure()
@@ -40,7 +44,7 @@ plt.ylabel("Ancho (m)")
 labels = []
 for i in range(0, len(ellipse_widths)):
     labels.append("{:.0%}".format(ratio[i]))
-plt.bar(labels, ellipse_widths)
+plt.bar(labels, ellipse_widths,yerr=width_errors,ecolor='red',capsize=12)
 
 
 plt.show()

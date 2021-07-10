@@ -41,3 +41,25 @@ run_varyingTreeRatio.EllipseSizeAfterTime:compile generate_experiment_folder
 # You should run simulation before this
 visualizer:
 	bash -c "cd visualization;source .env/bin/activate; python visualizer.py"
+
+graph_alpha_alive_trees:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python alpha_alive_trees.py"
+graph_alpha_avg_temp:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python alpha_avg_temp.py"
+graph_alpha_burnt_trees:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python alpha_burnt_trees.py"
+graph_alpha_ellipse_size:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python alpha_ellipse_size.py"
+graph_alpha_time_to_extinguish:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python alpha_time_to_extinguish.py"
+
+graph_ratio_alive_trees:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_alive_trees.py"
+graph_ratio_avg_temp:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_avg_temp.py"
+graph_ratio_burnt_trees:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_burnt_trees.py"
+graph_ratio_ellipse_size:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_ellipse_size.py"
+graph_ratio_time_to_extinguish:
+	bash -c "cd visualization;source .env/bin/activate;cd graph; python ratio_time_to_extinguish.py"

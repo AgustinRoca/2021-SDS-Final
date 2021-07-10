@@ -30,7 +30,7 @@ plt.rcParams.update({'font.size': 20})
 
 # lengths
 plt.figure()
-plt.title("Longitud de la elipse luego de {:.0f} mins".format(dt_sys[0]))
+plt.title("Largo de la elipse luego de {:.0f} mins".format(dt_sys[0]))
 plt.ylabel("Longitud (m)")
 labels = []
 for i in range(0, len(ellipse_lengths)):
@@ -39,7 +39,7 @@ plt.bar(labels, ellipse_lengths,yerr=length_errors,ecolor='red',capsize=12)
 
 # widths
 plt.figure()
-plt.title("Longitud de la elipse luego de {:.0f} mins".format(dt_sys[0]))
+plt.title("Ancho de la elipse luego de {:.0f} mins".format(dt_sys[0]))
 plt.ylabel("Ancho (m)")
 labels = []
 for i in range(0, len(ellipse_widths)):

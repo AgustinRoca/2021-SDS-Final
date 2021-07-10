@@ -9,7 +9,7 @@ times = []
 burnt_trees = []
 errors = []
 while line != "":
-    params = line.split('-')
+    params = line.split(';')
     ratio.append(float(params[1]))
     line = f.readline().strip()
     times.append([])
@@ -18,7 +18,7 @@ while line != "":
     while line != "":
         record = line.split(':')
         times[-1].append(float(record[0]))
-        burnt_tree_record = record[1].split('-')
+        burnt_tree_record = record[1].split(';')
         burnt_trees[-1].append(float(burnt_tree_record[0]))
         errors[-1].append(float(burnt_tree_record[1]))
         line = f.readline().strip()

@@ -10,7 +10,7 @@ times = []
 temps = []
 errors = []
 while line != "":
-    params = line.split('-')
+    params = line.split(';')
     print(params)
     alpha_mins.append(float(params[2]))
     alpha_maxs.append(float(params[1]))
@@ -21,7 +21,7 @@ while line != "":
     while line != "":
         record = line.split(':')
         times[-1].append(float(record[0]))
-        temp_record = record[1].split('-')
+        temp_record = record[1].split(';')
         temps[-1].append(float(temp_record[0]))
         errors[-1].append(float(temp_record[1]))
         line = f.readline().strip()

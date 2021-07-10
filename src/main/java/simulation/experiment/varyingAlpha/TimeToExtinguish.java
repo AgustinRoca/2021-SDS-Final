@@ -25,9 +25,10 @@ public class TimeToExtinguish {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(OUTPUT_PATH).toAbsolutePath().toString(), false));
 
+            double alphaMin = 0.5;
             for (double alphaMax = ALPHA_MAX_MIN; alphaMax <= ALPHA_MAX_MAX; alphaMax += (ALPHA_MAX_MAX - ALPHA_MAX_MIN) / (STEPS - 1)) {
-                double alphaMin = alphaMax / ALPHA_RATIO;
-                writer.write("" + DT + " - " + alphaMax + " - " + alphaMin + "\n");
+                alphaMin -= 0.1;
+                writer.write("" + DT + " ; " + alphaMax + " ; " + alphaMin + "\n");
                 List<Double> times = new ArrayList<>();
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(TREE_RATIO);
@@ -39,7 +40,7 @@ public class TimeToExtinguish {
                     }
                     times.add(round * DT / 60);
                 }
-                writer.write("" + calculateMean(times) + "-" + calculateSD(times) + "\n\n");
+                writer.write("" + calculateMean(times) + ";" + calculateSD(times) + "\n\n");
             }
 
             System.out.println("Termine");

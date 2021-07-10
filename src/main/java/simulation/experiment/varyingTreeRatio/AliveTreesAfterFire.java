@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AliveTreesAfterFire {
@@ -27,8 +28,9 @@ public class AliveTreesAfterFire {
 
             for (double treeRatio = TREE_RATIO_MIN; Double.compare(treeRatio, TREE_RATIO_MAX) <= 0; treeRatio += (TREE_RATIO_MAX - TREE_RATIO_MIN) / (STEPS - 1)) {
                 writer.write("" + DT + " - " + treeRatio + "\n");
-                int alive = 0;
+                List<Double> alives = new ArrayList<>();
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+                    int alive = 0;
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(treeRatio);
                     for (int round = 0; !WildfireSimulation.burntOut(lastMatrix); round++) {
                         if (round % 10 == 0)
@@ -43,9 +45,9 @@ public class AliveTreesAfterFire {
                             }
                         }
                     }
+                    alives.add((double)alive);
                 }
-                double aliveAvg = (double) alive / MAX_ITERATIONS;
-                writer.write("" + aliveAvg + "\n\n");
+                writer.write("" + calculateMean(alives) + "-" + calculateSD(alives) + "\n\n");
             }
 
             System.out.println("Termine");
@@ -53,5 +55,29 @@ public class AliveTreesAfterFire {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static double calculateSD(List<Double> numbers)
+    {
+        double standardDeviation = 0.0;
+
+        double mean = calculateMean(numbers);
+
+        for(double num: numbers) {
+            standardDeviation += Math.pow(num - mean, 2);
+        }
+
+        return Math.sqrt(standardDeviation/numbers.size());
+    }
+
+    public static double calculateMean(List<Double> numbers) {
+        double sum = 0.0;
+        int length = numbers.size();
+
+        for (double num : numbers) {
+            sum += num;
+        }
+
+        return sum / length;
     }
 }

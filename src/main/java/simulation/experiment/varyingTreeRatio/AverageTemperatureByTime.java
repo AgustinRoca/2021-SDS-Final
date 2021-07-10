@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,19 +31,20 @@ public class AverageTemperatureByTime {
 
             for (double treeRatio = TREE_RATIO_MIN; Double.compare(treeRatio, TREE_RATIO_MAX) <= 0; treeRatio += (TREE_RATIO_MAX - TREE_RATIO_MIN) / (STEPS - 1)) {
                 writer.write("" + DT + " - " + treeRatio + "\n");
-                Map<Double, Double> timeToTempMap = new HashMap<>();
+                Map<Double, List<Double>> timeToTempMap = new HashMap<>();
                 double minTime = -1;
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+                    System.out.println("Iteration: " + iteration);
                     List<List<Cell>> lastMatrix = WildfireSimulation.initializeMatrix(treeRatio);
                     int round = 0;
                     for (; !WildfireSimulation.burntOut(lastMatrix); round++) {
-                        if (round % 10 == 0)
+                        if (round % 1000 == 0)
                             System.out.println("Round " + round);
                         lastMatrix = WildfireSimulation.nextRound(lastMatrix, ALPHA_MAX, ALPHA_MIN, DT);
 
                         double t = DT * round;
                         if (t % 600 * DT == 0) {
-                            int tempAccum = 0;
+                            double tempAccum = 0;
                             int trees = 0;
                             for (List<Cell> row : lastMatrix) {
                                 for (Cell cell : row) {
@@ -52,7 +54,10 @@ public class AverageTemperatureByTime {
                                     }
                                 }
                             }
-                            timeToTempMap.put(t/60, timeToTempMap.getOrDefault(t/60, 0.0) + tempAccum/trees);
+                            if (!timeToTempMap.containsKey(t/60)){
+                                timeToTempMap.put(t/60, new ArrayList<>());
+                            }
+                            timeToTempMap.get(t / 60).add(tempAccum / trees);
                         }
                     }
                     if(minTime == -1 || (round * DT/60) < minTime){
@@ -61,7 +66,7 @@ public class AverageTemperatureByTime {
                 }
                 for (Double time : timeToTempMap.keySet().stream().sorted().collect(Collectors.toList())){
                     if(time < minTime) { // El ultimo no cuenta
-                        writer.write("" + time + ":" + (timeToTempMap.get(time) / MAX_ITERATIONS) + "\n");
+                        writer.write("" + time + ":" + calculateMean(timeToTempMap.get(time)) + "-" + calculateSD(timeToTempMap.get(time)) + "\n");
                     }
                 }
                 writer.write('\n');
@@ -72,5 +77,29 @@ public class AverageTemperatureByTime {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static double calculateSD(List<Double> numbers)
+    {
+        double standardDeviation = 0.0;
+
+        double mean = calculateMean(numbers);
+
+        for(double num: numbers) {
+            standardDeviation += Math.pow(num - mean, 2);
+        }
+
+        return Math.sqrt(standardDeviation/numbers.size());
+    }
+
+    public static double calculateMean(List<Double> numbers) {
+        double sum = 0.0;
+        int length = numbers.size();
+
+        for (double num : numbers) {
+            sum += num;
+        }
+
+        return sum / length;
     }
 }

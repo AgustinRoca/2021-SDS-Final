@@ -11,12 +11,12 @@ length_errors = []
 width_errors = []
 dt_sys = []
 while line != "":
-    params = line.split('-')
+    params = line.split(';')
     dt_sys.append(float(params[0]))
     print(params)
     ratio.append(float(params[1]))
     line = f.readline().strip()
-    params = line.split('-')
+    params = line.split(';')
     print(params)
     ellipse_lengths.append(float(params[0]))
     length_errors.append(float(params[1]))

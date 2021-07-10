@@ -29,9 +29,10 @@ public class AverageTemperatureByTime {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(OUTPUT_PATH).toAbsolutePath().toString(), false));
 
-            for(double alphaMax = ALPHA_MAX_MIN; alphaMax <=  ALPHA_MAX_MAX; alphaMax+=(ALPHA_MAX_MAX-ALPHA_MAX_MIN)/(STEPS-1)) {
-                double alphaMin = alphaMax / ALPHA_RATIO;
-                writer.write("" + DT + " - " + alphaMax + " - " + alphaMin + "\n");
+            double alphaMin = 0.5;
+            for (double alphaMax = ALPHA_MAX_MIN; alphaMax <= ALPHA_MAX_MAX; alphaMax += (ALPHA_MAX_MAX - ALPHA_MAX_MIN) / (STEPS - 1)) {
+                alphaMin -= 0.1;
+                writer.write("" + DT + " ; " + alphaMax + " ; " + alphaMin + "\n");
                 Map<Double, List<Double>> timeToTempMap = new HashMap<>();
                 double minTime = -1;
                 for(int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
@@ -66,7 +67,7 @@ public class AverageTemperatureByTime {
                 }
                 for (Double time : timeToTempMap.keySet().stream().sorted().collect(Collectors.toList())){
                     if(time < minTime) { // El ultimo no cuenta
-                        writer.write("" + time + ":" + calculateMean(timeToTempMap.get(time)) + "-" + calculateSD(timeToTempMap.get(time)) + "\n");
+                        writer.write("" + time + ":" + calculateMean(timeToTempMap.get(time)) + ";" + calculateSD(timeToTempMap.get(time)) + "\n");
                     }
                 }
                 writer.write('\n');

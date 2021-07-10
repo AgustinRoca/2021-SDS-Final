@@ -9,12 +9,12 @@ alpha_maxs = []
 errors = []
 time_to_extinguish = []
 while line != "":
-    params = line.split('-')
+    params = line.split(';')
     print(params)
     alpha_mins.append(float(params[2]))
     alpha_maxs.append(float(params[1]))
     line = f.readline().strip()
-    params = line.split('-')
+    params = line.split(';')
     time_to_extinguish.append(float(params[0]))
     errors.append(float(params[1]))
     line = f.readline()

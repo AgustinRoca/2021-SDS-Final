@@ -27,9 +27,10 @@ public class EllipseSizeAfterTime {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(OUTPUT_PATH).toAbsolutePath().toString(), false));
 
-            for(double alphaMax = ALPHA_MAX_MIN; alphaMax <=  ALPHA_MAX_MAX; alphaMax+=(ALPHA_MAX_MAX-ALPHA_MAX_MIN)/(STEPS-1)) {
-                double alphaMin = alphaMax / ALPHA_RATIO;
-                writer.write("" + DT + " - " + alphaMax + " - " + alphaMin + "\n");
+            double alphaMin = 0.5;
+            for (double alphaMax = ALPHA_MAX_MIN; alphaMax <= ALPHA_MAX_MAX; alphaMax += (ALPHA_MAX_MAX - ALPHA_MAX_MIN) / (STEPS - 1)) {
+                alphaMin -= 0.1;
+                writer.write("" + DT + " ; " + alphaMax + " ; " + alphaMin + "\n");
                 List<Double> lengthList = new ArrayList<>();
                 List<Double> widthList = new ArrayList<>();
 
@@ -76,8 +77,8 @@ public class EllipseSizeAfterTime {
                     lengthList.add(length);
                     widthList.add(width);
                 }
-                writer.write("" + calculateMean(lengthList) + "-" + calculateSD(lengthList) +
-                        "-" + calculateMean(widthList) + "-" + calculateSD(widthList) + "\n\n");
+                writer.write("" + calculateMean(lengthList) + ";" + calculateSD(lengthList) +
+                        ";" + calculateMean(widthList) + ";" + calculateSD(widthList) + "\n\n");
             }
 
             System.out.println("Termine");

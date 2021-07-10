@@ -8,11 +8,11 @@ ratio = []
 errors = []
 time_to_extinguish = []
 while line != "":
-    params = line.split('-')
+    params = line.split(';')
     print(params)
     ratio.append(float(params[1]))
     line = f.readline().strip()
-    params = line.split('-')
+    params = line.split(';')
     time_to_extinguish.append(float(params[0]))
     errors.append(float(params[1]))
     line = f.readline()

@@ -9,12 +9,12 @@ alpha_maxs = []
 alive_trees = []
 errors = []
 while line != "":
-    params = line.split('-')
+    params = line.split(';')
     print(params)
     alpha_mins.append(float(params[2]))
     alpha_maxs.append(float(params[1]))
     line = f.readline().strip()
-    params = line.split('-')
+    params = line.split(';')
     alive_trees.append(float(params[0]))
     errors.append(float(params[1]))
     line = f.readline()

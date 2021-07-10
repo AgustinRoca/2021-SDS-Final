@@ -66,10 +66,12 @@ ax.figure.set_size_inches((12, 12))
 # ax.set_yticks(minor_ticks_y, minor=True)
 ax.grid(b=True, which='minor', color='gray', linestyle='-', linewidth=0.5)
 
-
+def progress_callback(cur, tot):
+    if cur%10 == 0:
+        print(f"frame {cur} of {tot}")
 if(not os.path.isdir(ANIMATION_PATH)):
     os.makedirs(ANIMATION_PATH)
-ani.save(os.path.join(ANIMATION_PATH,ANIMATION_FILENAME))
+ani.save(os.path.join(ANIMATION_PATH,ANIMATION_FILENAME), progress_callback=progress_callback)
 
 for tic in ax.xaxis.get_major_ticks():
     tic.tick1On = tic.tick2On = False

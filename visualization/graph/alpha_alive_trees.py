@@ -20,8 +20,8 @@ while line != "":
     line = f.readline()
     line = f.readline()
 
-plt.rcParams["figure.figsize"] = (10, 10)
-plt.rcParams.update({'font.size': 12})
+plt.rcParams["figure.figsize"] = (16, 16)
+plt.rcParams.update({'font.size': 20})
 plt.figure()
 plt.title("Árboles vivos después del fuego")
 plt.ylabel("Cantidad de árboles vivos")

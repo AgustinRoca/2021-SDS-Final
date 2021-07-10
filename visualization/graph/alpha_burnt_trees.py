@@ -39,7 +39,7 @@ def filter_by_i(arr, mod):
     return list([arr[j] for j in range(0,len(arr)) if j%mod == 0])
 
 for i in range(0, len(times)):
-    plt.errorbar(filter_by_i(times[i],10),filter_by_i(burnt_trees[i],10),yerr=filter_by_i(errors[i],10),fmt='none')
+    plt.errorbar(filter_by_i(times[i],10),filter_by_i(burnt_trees[i],10),yerr=filter_by_i(errors[i],10),fmt='o')
     plt.plot(times[i], burnt_trees[i], label=("{:.2f} - {:.2f}".format(alpha_mins[i], alpha_maxs[i])))
 plt.legend()
 plt.show()
